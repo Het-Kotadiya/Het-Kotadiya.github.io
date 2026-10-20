@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Het Kotadiya — AI Safety · Cybersecurity · OSINT</title>
+<meta name="description" content="Het Kotadiya — cybersecurity master's student at DePaul University, focused on AI safety. Also working in security and OSINT.">
+<meta name="author" content="Het Kotadiya">
+
+<!-- Security: only this site's own files, Google Fonts, and the one script below (locked by its hash). No trackers. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'sha256-vz1b+QlwUXWohS2UoV5gaA4z695P/mP1Lp6002g/9xw='; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<!-- Social preview (LinkedIn, Slack, etc.) -->
+<meta property="og:title" content="Het Kotadiya">
+<meta property="og:description" content="AI Safety · Cybersecurity · OSINT">
+<meta property="og:type" content="website">
+
+<!-- Theme switch + visual effects. Runs early so the page never flashes the wrong theme. -->
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+
+  // Theme: use the visitor's saved choice, if any
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  } catch (e) {}
+
+  // Turn on scroll-in animation only when it is safe to
+  if (!reduceMotion && 'IntersectionObserver' in window) root.classList.add('fx');
+
+  function currentTheme() {
+    var t = root.getAttribute('data-theme');
+    if (t) return t;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  function updateLabel(btn) {
+    btn.setAttribute('aria-label', currentTheme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // 1. Theme switch button
+    var btn = document.getElementById('theme-toggle');
+    if (btn) {
+      btn.hidden = false;
+      updateLabel(btn);
+      btn.addEventListener('click', function () {
+        var next = currentTheme() === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        updateLabel(btn);
+      });
+    }
+
+    // 2. Squares fade in as you scroll
+    if (root.classList.contains('fx')) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          io.unobserve(el);
+          el.classList.add('in');
+          setTimeout(function () { el.classList.remove('in'); el.classList.add('done'); }, 1000);
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.tile, .section-head').forEach(function (el) {
+        var i = Array.prototype.indexOf.call(el.parentNode.children, el);
+        el.style.setProperty('--d', (Math.min(i, 5) * 70) + 'ms');
+        io.observe(el);
+      });
+    }
+
+    // 3. Frosted header shows a thin line once you scroll
+    var header = document.querySelector('.site-header');
+    if (header) {
+      var onScroll = function () { header.classList.toggle('scrolled', window.scrollY > 8); };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+
+    // 4. Soft dot cursor, a light that follows the mouse on squares, click ring (mouse only)
+    if (finePointer && !reduceMotion) {
+      var cursor = document.createElement('div');
+      cursor.className = 'cursor';
+      cursor.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(cursor);
+
+      // The dot sits exactly on the mouse (no lag), so clicks land right where it is
+      document.addEventListener('mousemove', function (e) {
+        var x = e.clientX, y = e.clientY;
+        cursor.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+        cursor.classList.add('on');
+        var tile = e.target.closest && e.target.closest('.tile');
+        if (tile) {
+          var r = tile.getBoundingClientRect();
+          tile.style.setProperty('--mx', (x - r.left) + 'px');
+          tile.style.setProperty('--my', (y - r.top) + 'px');
+        }
+      });
+      document.documentElement.addEventListener('mouseleave', function () { cursor.classList.remove('on'); });
+      document.addEventListener('mouseover', function (e) {
+        cursor.classList.toggle('hover', !!e.target.closest('a, button'));
+      });
+      document.addEventListener('mousedown', function () { cursor.classList.add('press'); });
+      document.addEventListener('mouseup', function () { cursor.classList.remove('press'); });
+
+      document.addEventListener('click', function (e) {
+        var ring = document.createElement('span');
+        ring.className = 'ripple';
+        ring.setAttribute('aria-hidden', 'true');
+        ring.style.left = e.clientX + 'px';
+        ring.style.top = e.clientY + 'px';
+        document.body.appendChild(ring);
+        ring.addEventListener('animationend', function () { ring.remove(); });
+      });
+    }
+  });
+})();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* ---------- Colors (change the accent here) ---------- */
+:root {
+  --bg: #F3F2EE;
+  --tile: #FFFFFF;
+  --ink: #111111;
+  --muted: #5C5B57;
+  --line: #DAD8D2;
+  --accent: #FF5A1F;      /* try #D4FF3A, #8FD3FF or #C9B6FF */
+  --on-accent: #111111;
+}
+/* Dark mode: follows the visitor's system setting,
+   unless they picked a theme with the switch button */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E0E0E;
+    --tile: #171717;
+    --ink: #F2F1EC;
+    --muted: #A3A19B;
+    --line: #2C2C2C;
+    color-scheme: dark;
+  }
+  :root:not([data-theme="light"]) .icon-sun { display: block; }
+  :root:not([data-theme="light"]) .icon-moon { display: none; }
+}
+:root[data-theme="dark"] {
+  --bg: #0E0E0E;
+  --tile: #171717;
+  --ink: #F2F1EC;
+  --muted: #A3A19B;
+  --line: #2C2C2C;
+  color-scheme: dark;
+}
+:root[data-theme="dark"] .icon-sun { display: block; }
+:root[data-theme="dark"] .icon-moon { display: none; }
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .2s ease, color .2s ease;
+}
+a { color: inherit; text-decoration: none; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+h1, h2, h3, p { margin: 0; }
+::selection { background: var(--accent); color: var(--on-accent); }
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.muted { color: var(--muted); }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 16px 40px 40px; }
+
+/* ---------- Hover effects ---------- */
+/* Underline that draws in from the left */
+.u {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  padding-bottom: 2px;
+  transition: background-size .25s ease;
+}
+a:hover .u { background-size: 100% 1px; }
+
+/* Arrows nudge in their direction */
+.arr { display: inline-block; transition: transform .2s ease; }
+a:hover .arr.r  { transform: translateX(4px); }
+a:hover .arr.ne { transform: translate(3px, -3px); }
+a:hover .arr.dn { transform: translateY(3px); }
+
+/* Press effect on anything clickable */
+a.tile:active, .btn:active, .theme-btn:active { transform: scale(.985); }
+
+/* ---------- Header ---------- */
+/* Frosted glass header that stays at the top while you scroll */
+html { scroll-padding-top: 96px; }
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 68%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  backdrop-filter: blur(16px) saturate(1.6);
+  border-bottom: 1px solid transparent;
+  transition: border-color .25s ease, background-color .2s ease;
+}
+.site-header.scrolled { border-bottom-color: var(--line); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header { background: var(--bg); }
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto; padding: 16px 40px;
+  display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo {
+  width: 44px; height: 44px; background: var(--ink); color: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500;
+  transition: background-color .25s ease, color .25s ease;
+}
+.brand:hover .logo { background: var(--accent); color: var(--on-accent); }
+.brand-name { font-weight: 600; font-size: 16px; }
+nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+nav a { padding: 12px 14px; font-size: 15px; }
+nav .btn {
+  padding: 11px 16px; margin-left: 8px; border: 1px solid var(--ink); font-weight: 500;
+  transition: background-color .2s ease, color .2s ease, transform .15s ease;
+}
+nav .btn:hover { background: var(--ink); color: var(--bg); }
+
+/* Theme switch button */
+.theme-btn {
+  width: 44px; height: 44px; margin-left: 8px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; color: inherit;
+  border: 1px solid var(--line); cursor: pointer;
+  transition: border-color .2s ease, transform .15s ease;
+}
+.theme-btn:hover { border-color: var(--ink); }
+.theme-btn svg { transition: transform .4s ease; }
+.theme-btn:hover svg { transform: rotate(45deg); }
+.theme-btn[hidden] { display: none; }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+
+/* ---------- Square grid ---------- */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.tile {
+  position: relative;
+  background: var(--tile);
+  padding: 28px;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 20px;
+  transition: box-shadow .25s ease, transform .15s ease;
+}
+/* Hover: thin frame + small accent square in the corner */
+.tile::after {
+  content: ""; position: absolute; top: 14px; right: 14px;
+  width: 8px; height: 8px; background: var(--accent);
+  transform: scale(0); transition: transform .25s ease;
+}
+.tile:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+.tile:hover::after { transform: scale(1); }
+.tile.accent::after { background: var(--on-accent); }
+.tile.inverse:hover { box-shadow: inset 0 0 0 1px var(--accent); }
+
+.sq { aspect-ratio: 1 / 1; }
+.wq { aspect-ratio: 2 / 1; }
+.span2 { grid-column: span 2; grid-row: span 2; }
+.wide { grid-column: span 2; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.inverse { background: var(--ink); color: var(--bg); }
+.accent { background: var(--accent); color: var(--on-accent); }
+
+/* Hero */
+.hero { padding: 40px; gap: 32px; }
+.hero .stack { gap: 24px; }
+.hero h1 {
+  font-size: clamp(44px, 6.5vw, 92px); font-weight: 600;
+  line-height: 0.95; letter-spacing: -0.045em;
+}
+.hero p { max-width: 460px; font-size: 18px; line-height: 1.5; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 8px 12px; border: 1px solid var(--ink);
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  transition: background-color .2s ease, color .2s ease;
+}
+.chip:hover { background: var(--ink); color: var(--bg); }
+
+.big { font-size: 26px; font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; }
+.bigger { font-size: 34px; font-weight: 600; line-height: 1.05; letter-spacing: -0.03em; }
+.small { font-size: 15px; line-height: 1.45; }
+.dot { width: 14px; height: 14px; background: var(--accent); animation: blink 2.4s steps(1) infinite; }
+
+/* Pixel pattern: hover a pixel to light it up */
+.pixels { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 3px; width: 64%; }
+.pixels i {
+  display: block; aspect-ratio: 1 / 1; background: var(--line);
+  transition: background-color .4s ease, transform .2s ease;
+}
+.pixels i.a { background: var(--ink); }
+.pixels i.b { background: var(--accent); animation: blink 2.4s steps(1) infinite; }
+.pixels i:hover { background: var(--accent); transform: scale(1.2); transition-duration: .05s; }
+
+@keyframes blink { 50% { opacity: .3; } }
+
+/* Section headings */
+.section-head {
+  display: flex; flex-wrap: wrap; justify-content: space-between;
+  align-items: baseline; gap: 16px; padding: 72px 0 20px;
+}
+.section-head h2 { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; }
+
+/* Project cards */
+.card-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.num { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); }
+.tag {
+  padding: 6px 10px; border: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.card h3 { font-size: 22px; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; }
+.card .link { font-size: 15px; font-weight: 500; padding-top: 6px; align-self: flex-start; }
+
+/* Lists (Now + Contact) */
+.row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 16px; padding: 14px 0; border-top: 1px solid var(--line);
+}
+.row:last-child { border-bottom: 1px solid var(--line); }
+.row span:first-child { font-size: 17px; font-weight: 500; }
+.row .mono { white-space: nowrap; letter-spacing: 0; }
+.about-text { font-size: 19px; line-height: 1.5; letter-spacing: -0.01em; }
+
+/* Contact */
+#contact { margin-top: 72px; }
+.contact-head { padding: 40px; gap: 24px; }
+.contact-head h2 {
+  font-size: clamp(48px, 6vw, 84px); font-weight: 600;
+  line-height: 0.95; letter-spacing: -0.045em;
+}
+.contact-links { padding: 28px 40px; justify-content: center; gap: 0; }
+.contact-link {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line);
+}
+.contact-link:last-child { border-bottom: 0; }
+.contact-link .label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.contact-link .value { font-size: 18px; font-weight: 500; word-break: break-word; }
+.contact-link .arr { font-size: 20px; }
+
+/* Footer */
+footer {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
+  padding-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted);
+}
+
+/* ---------- Scroll-in animation (only when the script turns it on) ---------- */
+.fx .tile, .fx .section-head { opacity: 0; translate: 0 16px; }
+.fx .in {
+  opacity: 1; translate: 0 0;
+  transition: opacity .6s ease var(--d, 0ms), translate .6s ease var(--d, 0ms);
+}
+.fx .done { opacity: 1; translate: 0 0; }
+
+/* ---------- Soft dot cursor + click ring (mouse only) ---------- */
+.cursor {
+  position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none;
+  width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity .2s ease, width .25s ease, height .25s ease, margin .25s ease,
+              background-color .25s ease, box-shadow .25s ease, scale .15s ease;
+}
+.cursor.on { opacity: 1; }
+.cursor.hover {
+  width: 38px; height: 38px; margin: -19px 0 0 -19px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.cursor.press { scale: .75; }
+.ripple {
+  position: fixed; z-index: 9998; pointer-events: none;
+  width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  animation: ripple .55s ease-out forwards;
+}
+@keyframes ripple {
+  from { transform: scale(.2); opacity: .9; }
+  to   { transform: scale(1.5); opacity: 0; }
+}
+
+/* ---------- Soft light that follows the mouse inside each square ---------- */
+.tile::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%),
+              color-mix(in srgb, var(--accent) 13%, transparent), transparent 70%);
+  opacity: 0; transition: opacity .3s ease;
+}
+.tile:hover::before { opacity: 1; }
+.tile.accent::before {
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%),
+              rgba(255, 255, 255, .35), transparent 70%);
+}
+.tile > * { position: relative; z-index: 1; }
+
+/* ---------- Frosted glass ---------- */
+.glass {
+  background: color-mix(in srgb, var(--tile) 58%, transparent);
+  -webkit-backdrop-filter: blur(10px) saturate(1.6);
+  backdrop-filter: blur(10px) saturate(1.6);
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: color-mix(in srgb, var(--tile) 92%, transparent); }
+}
+
+/* Signal / noise square: big pixel pattern under a glass label */
+.signal { overflow: hidden; justify-content: flex-end; }
+.signal .pixels {
+  position: absolute; inset: 28px; z-index: 0;
+  width: auto; gap: 4px; align-content: start;
+}
+.signal .glass { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+
+/* ---------- India flag ---------- */
+.flag {
+  display: block; width: 48px; height: 32px; flex: none;
+  margin-bottom: -8px;               /* sits just above the name */
+  box-shadow: 0 0 0 1px var(--line);
+}
+@media (max-width: 560px) { .flag { width: 39px; height: 26px; } }
+
+/* Squares that grow with their text (no gray gaps) */
+.tall { min-height: 300px; }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 900px) {
+  .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* ---------- Phone ---------- */
+@media (max-width: 560px) {
+  .wrap { padding: 12px 16px 32px; }
+  .header-inner { padding: 10px 16px; flex-wrap: nowrap; gap: 8px; }
+  .brand-name, nav .btn { display: none; }   /* name is in the big square; resume is in Contact */
+  nav { flex-wrap: nowrap; gap: 0; }
+  nav a { padding: 12px 9px; }
+  .signal.sq { aspect-ratio: 1 / 1; }
+  .tall { min-height: 0; }
+  .bento { grid-template-columns: minmax(0, 1fr); }
+  .span2, .wide { grid-column: span 1; grid-row: auto; }
+  .sq, .wq { aspect-ratio: auto; min-height: 220px; }
+  .hero, .contact-head, .contact-links { padding: 28px; }
+  nav .btn { margin-left: 0; }
+}
+
+/* Respect visitors who turn off motion in their system settings */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+  <header class="site-header" id="top">
+   <div class="header-inner">
+    <a href="#top" class="brand">
+      <span class="logo" aria-hidden="true">HK</span>
+      <span class="brand-name">Het Kotadiya</span>
+    </a>
+    <nav aria-label="Main">
+      <a href="#work"><span class="u">Work</span></a>
+      <a href="#about"><span class="u">About</span></a>
+      <a href="#contact"><span class="u">Contact</span></a>
+      <a href="resume.pdf" class="btn" download>Resume <span class="arr dn">↓</span></a>
+      <button type="button" id="theme-toggle" class="theme-btn" aria-label="Switch theme" hidden>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="8" height="8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>
+      </button>
+    </nav>
+   </div>
+  </header>
+
+<div class="wrap">
+  <main>
+    <!-- ===== Intro ===== -->
+    <section class="bento" aria-label="Introduction">
+      <div class="tile hero span2 sq">
+        <span class="mono muted">[ 00 ] Portfolio — 2026</span>
+        <div class="stack">
+          <svg class="flag" viewBox="0 0 900 600" role="img" aria-label="Flag of India"><rect width="900" height="200" fill="#FF9933"/><rect y="200" width="900" height="200" fill="#FFFFFF"/><rect y="400" width="900" height="200" fill="#138808"/><g fill="none" stroke="#000080"><circle cx="450" cy="300" r="70" stroke-width="9"/><path stroke-width="3.5" d="M450 300L520.0 300.0M450 300L517.6 318.1M450 300L510.6 335.0M450 300L499.5 349.5M450 300L485.0 360.6M450 300L468.1 367.6M450 300L450.0 370.0M450 300L431.9 367.6M450 300L415.0 360.6M450 300L400.5 349.5M450 300L389.4 335.0M450 300L382.4 318.1M450 300L380.0 300.0M450 300L382.4 281.9M450 300L389.4 265.0M450 300L400.5 250.5M450 300L415.0 239.4M450 300L431.9 232.4M450 300L450.0 230.0M450 300L468.1 232.4M450 300L485.0 239.4M450 300L499.5 250.5M450 300L510.6 265.0M450 300L517.6 281.9"/></g><circle cx="450" cy="300" r="13" fill="#000080"/></svg>
+          <h1>Het<br>Kotadiya</h1>
+          <p class="muted">Cybersecurity master's student focused on AI safety — helping make advanced AI systems safe and reliable. I also work in security and OSINT: investigative work, finding what's hidden in plain sight.</p>
+          <div class="chips">
+            <span class="chip">AI Safety</span>
+            <span class="chip">Cybersecurity</span>
+            <span class="chip">OSINT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tile sq">
+        <span class="mono muted">Status</span>
+        <div class="stack">
+          <span class="dot" aria-hidden="true"></span>
+          <p class="big">Open to remote roles</p>
+          <p class="small muted">AI safety · Research · Security</p>
+        </div>
+      </div>
+
+      <div class="tile sq accent">
+        <span class="mono">Main focus</span>
+        <div class="stack">
+          <p class="bigger">AI safety</p>
+          <p class="small">Understanding how AI systems can fail, and helping make them safe.</p>
+        </div>
+      </div>
+
+      <div class="tile sq signal">
+        <div class="pixels" aria-hidden="true">
+          <i class="a"></i><i></i><i class="a"></i><i class="a"></i><i></i><i></i><i class="a"></i><i></i>
+          <i></i><i class="a"></i><i></i><i></i><i class="a"></i><i class="a"></i><i></i><i class="a"></i>
+          <i class="a"></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i>
+          <i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i class="a"></i>
+          <i class="a"></i><i></i><i class="a"></i><i></i><i></i><i class="a"></i><i class="a"></i><i></i>
+          <i></i><i class="a"></i><i></i><i class="a"></i><i class="a"></i><i></i><i></i><i class="a"></i>
+          <i class="a"></i><i class="a"></i><i></i><i></i><i></i><i class="a"></i><i></i><i class="a"></i>
+          <i></i><i></i><i class="b"></i><i class="a"></i><i class="a"></i><i></i><i class="a"></i><i></i>
+        </div>
+        <div class="glass">
+          <span class="mono">Signal / noise</span>
+          <p class="small">OSINT — finding patterns in public data.</p>
+        </div>
+      </div>
+
+      <div class="tile sq">
+        <span class="mono muted">Education</span>
+        <div class="stack" style="gap:8px">
+          <p class="big">M.S. Cybersecurity</p>
+          <p class="small muted">DePaul University</p>
+          <p class="mono muted" style="text-transform:none;letter-spacing:0">Nov 2025 — Nov 2026</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Work ===== -->
+    <div class="section-head" id="work">
+      <h2>Selected work</h2>
+      <span class="mono muted">[ 01 — 02 ]</span>
+    </div>
+
+    <section class="bento" aria-label="Selected work">
+      <article class="tile sq card">
+        <div class="card-top">
+          <span class="num">01</span>
+          <span class="tag">AI Safety</span>
+        </div>
+        <div class="stack" style="gap:10px">
+          <h3>AI collusion research sprint</h3>
+          <p class="small muted">Team research sprint with Apart Research on collusion between AI systems.</p>
+          <!-- TODO: replace with the exact repo link -->
+          <a class="link" href="https://github.com/Het-Kotadiya" target="_blank" rel="noopener noreferrer"><span class="u">View on GitHub</span> <span class="arr r">→</span></a>
+        </div>
+      </article>
+
+      <article class="tile sq card">
+        <div class="card-top">
+          <span class="num">02</span>
+          <span class="tag">Capstone</span>
+        </div>
+        <div class="stack" style="gap:10px">
+          <h3>M.S. capstone project</h3>
+          <p class="small muted">Cybersecurity capstone at DePaul University. Details coming soon.</p>
+          <!-- TODO: replace with the exact repo link -->
+          <a class="link" href="https://github.com/Het-Kotadiya" target="_blank" rel="noopener noreferrer"><span class="u">View on GitHub</span> <span class="arr r">→</span></a>
+        </div>
+      </article>
+
+      <a class="tile wide wq inverse" href="https://github.com/Het-Kotadiya" target="_blank" rel="noopener noreferrer">
+        <span class="mono">Archive</span>
+        <span class="stack" style="gap:10px">
+          <span class="bigger">All projects on GitHub</span>
+          <span class="mono" style="text-transform:none;letter-spacing:0;font-size:13px">github.com/Het-Kotadiya <span class="arr ne">↗</span></span>
+        </span>
+      </a>
+    </section>
+
+    <!-- ===== About ===== -->
+    <div class="section-head" id="about">
+      <h2>About</h2>
+      <span class="mono muted">[ now ]</span>
+    </div>
+
+    <section class="bento" aria-label="About">
+      <div class="tile wide tall">
+        <span class="mono muted">About</span>
+        <div class="stack" style="gap:16px">
+          <p class="about-text">I'm a cybersecurity master's student at DePaul University. My main interest is AI safety — understanding how AI systems can fail or behave in unexpected ways, and helping make them safe. I also work in cybersecurity, and I've been drawn to OSINT and investigative work since I was a kid.</p>
+          <p class="mono muted" style="text-transform:none;letter-spacing:0">Remote only</p>
+        </div>
+      </div>
+
+      <div class="tile wide tall">
+        <span class="mono muted">Now</span>
+        <div>
+          <div class="row"><span>Finishing my M.S. in Cybersecurity at DePaul</span><span class="mono muted">NOV 2026</span></div>
+          <div class="row"><span>Going deeper into AI safety research</span><span class="mono muted">ONGOING</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <section class="bento" id="contact" aria-label="Contact">
+      <div class="tile wide tall inverse contact-head">
+        <span class="mono">Contact</span>
+        <div class="stack" style="gap:14px">
+          <h2>Let's talk.</h2>
+          <p style="font-size:17px;line-height:1.45">Open to remote roles in AI safety, research and security.</p>
+        </div>
+      </div>
+
+      <div class="tile wide tall contact-links">
+        <a class="contact-link" href="mailto:hetkotadiya0303@gmail.com">
+          <span><span class="mono label">Email</span><span class="value u">hetkotadiya0303@gmail.com</span></span>
+          <span class="arr r" aria-hidden="true">→</span>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/het-kotadiya" target="_blank" rel="noopener noreferrer">
+          <span><span class="mono label">LinkedIn</span><span class="value u">in/het-kotadiya</span></span>
+          <span class="arr ne" aria-hidden="true">↗</span>
+        </a>
+        <a class="contact-link" href="https://github.com/Het-Kotadiya" target="_blank" rel="noopener noreferrer">
+          <span><span class="mono label">GitHub</span><span class="value u">Het-Kotadiya</span></span>
+          <span class="arr ne" aria-hidden="true">↗</span>
+        </a>
+        <a class="contact-link" href="resume.pdf" download>
+          <span><span class="mono label">Resume</span><span class="value u">Download PDF</span></span>
+          <span class="arr dn" aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Het Kotadiya</span>
+    <span>Static site · No trackers · No cookies</span>
+  </footer>
+
+</div>
+</body>
+</html>
