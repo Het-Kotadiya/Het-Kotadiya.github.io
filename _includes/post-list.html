@@ -1,0 +1,22 @@
+{%- comment -%} One row per write-up. Pass the posts in with: include post-list.html posts=... {%- endcomment -%}
+<ul class="post-list">
+  {%- for post in include.posts limit: include.limit %}
+  <li>
+    <a class="post-row" href="{{ post.url | relative_url }}">
+      <time class="mono muted post-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %b %Y" }}</time>
+      <span class="post-main">
+        <span class="post-title u">{{ post.title }}</span>
+        {%- if post.summary %}
+        <span class="post-sum muted">{{ post.summary }}</span>
+        {%- endif %}
+      </span>
+      {%- if post.tags.size > 0 %}
+      <span class="tag">{{ post.tags | first }}</span>
+      {%- else %}
+      <span></span>
+      {%- endif %}
+      <span class="arr r" aria-hidden="true">→</span>
+    </a>
+  </li>
+  {%- endfor %}
+</ul>

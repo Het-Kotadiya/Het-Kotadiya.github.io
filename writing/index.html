@@ -1,0 +1,60 @@
+---
+title: Writing
+description: Articles and write-ups by Het Kotadiya on AI safety, cybersecurity and OSINT.
+---
+<!doctype html>
+<html lang="en">
+<head>
+{% include head.html %}
+</head>
+<body>
+{% include header.html %}
+
+<div class="wrap">
+  <main>
+    <section class="bento" aria-label="Writing">
+      <div class="tile wide tall page-hero">
+        <span class="mono muted">[ 03 ] Writing</span>
+        <div class="stack" style="gap:20px">
+          <h1>Writing</h1>
+          <p class="muted">Articles and write-ups on AI safety, cybersecurity and OSINT.</p>
+        </div>
+      </div>
+
+      <div class="tile wide tall inverse">
+        <span class="mono">Index</span>
+        <div class="stack" style="gap:14px">
+          <span class="count-num">{{ site.posts.size | prepend: "00" | slice: -2, 2 }}</span>
+          <span class="small">{% if site.posts.size == 1 %}write-up{% else %}write-ups{% endif %} so far</span>
+          <a class="mono" href="{{ '/feed.xml' | relative_url }}" style="text-transform:none;letter-spacing:0;font-size:13px"><span class="u">Follow via RSS</span> <span class="arr ne">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    {%- if site.posts.size == 0 %}
+    <div class="section-head"><h2>Coming soon</h2></div>
+    <section class="bento" aria-label="Write-ups">
+      <div class="tile full list-tile">
+        <p class="empty-note muted">The first write-up is on its way.</p>
+      </div>
+    </section>
+    {%- else %}
+    {%- assign years = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+    {%- for year in years %}
+    <div class="section-head">
+      <h2>{{ year.name }}</h2>
+      <span class="mono muted">[ {{ year.items.size }} ]</span>
+    </div>
+    <section class="bento" aria-label="Write-ups from {{ year.name }}">
+      <div class="tile full list-tile">
+        {% include post-list.html posts=year.items %}
+      </div>
+    </section>
+    {%- endfor %}
+    {%- endif %}
+  </main>
+
+  {% include footer.html %}
+</div>
+</body>
+</html>

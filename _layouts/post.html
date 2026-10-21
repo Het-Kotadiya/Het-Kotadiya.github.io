@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+{% include head.html %}
+</head>
+<body>
+{% include header.html %}
+
+<div class="wrap">
+  <main>
+    <article>
+      {%- assign words = content | strip_html | number_of_words %}
+      {%- assign minutes = words | divided_by: 200 %}
+      {%- if minutes < 1 %}{% assign minutes = 1 %}{% endif %}
+
+      <section class="bento" aria-label="Article header">
+        <header class="tile full post-hero">
+          <a class="mono muted back" href="{{ '/writing/' | relative_url }}"><span class="arr l">←</span> <span class="u">All writing</span></a>
+          <div class="stack" style="gap:20px">
+            <p class="mono muted post-meta">
+              <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %b %Y" }}</time>
+              · {{ minutes }} min read
+            </p>
+            <h1 class="post-h1">{{ page.title }}</h1>
+            {%- if page.summary %}
+            <p class="post-lead muted">{{ page.summary }}</p>
+            {%- endif %}
+            {%- if page.tags.size > 0 %}
+            <div class="chips">
+              {%- for t in page.tags %}<span class="chip">{{ t }}</span>{% endfor %}
+            </div>
+            {%- endif %}
+          </div>
+        </header>
+      </section>
+
+      <div class="prose">
+        {{ content }}
+      </div>
+    </article>
+
+    <nav class="bento post-nav" aria-label="More writing">
+      {%- if page.previous %}
+      <a class="tile wide" href="{{ page.previous.url | relative_url }}">
+        <span class="mono muted"><span class="arr l">←</span> Older</span>
+        <span class="bigger">{{ page.previous.title }}</span>
+      </a>
+      {%- else %}
+      <a class="tile wide" href="{{ '/writing/' | relative_url }}">
+        <span class="mono muted"><span class="arr l">←</span> Back</span>
+        <span class="bigger">All writing</span>
+      </a>
+      {%- endif %}
+      {%- if page.next %}
+      <a class="tile wide right" href="{{ page.next.url | relative_url }}">
+        <span class="mono muted">Newer <span class="arr r">→</span></span>
+        <span class="bigger">{{ page.next.title }}</span>
+      </a>
+      {%- else %}
+      <a class="tile wide right inverse" href="{{ '/#contact' | relative_url }}">
+        <span class="mono">Get in touch <span class="arr r">→</span></span>
+        <span class="bigger">Questions or thoughts? Let's talk.</span>
+      </a>
+      {%- endif %}
+    </nav>
+  </main>
+
+  {% include footer.html %}
+</div>
+</body>
+</html>

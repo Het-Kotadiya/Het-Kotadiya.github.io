@@ -1,0 +1,31 @@
+---
+title: Page not found
+permalink: /404.html
+sitemap: false
+---
+<!doctype html>
+<html lang="en">
+<head>
+{% include head.html %}
+</head>
+<body>
+{% include header.html %}
+
+<div class="wrap">
+  <main>
+    <section class="bento" aria-label="Page not found">
+      <div class="tile full page-hero nf">
+        <span class="mono muted">[ 404 ] Not found</span>
+        <div class="stack" style="gap:20px">
+          <h1>Nothing here.</h1>
+          <p class="muted">This page doesn't exist, or it has moved.</p>
+          <a class="mono" href="{{ '/' | relative_url }}" style="font-size:13px"><span class="arr l">←</span> <span class="u">Back to home</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include footer.html %}
+</div>
+</body>
+</html>
