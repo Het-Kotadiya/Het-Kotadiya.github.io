@@ -32,6 +32,14 @@
             {%- endif %}
           </div>
         </header>
+        {%- if page.image %}
+        <figure class="tile full cover-tile">
+          <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: '' | escape }}">
+          {%- if page.image_caption %}
+          <figcaption class="mono muted">{{ page.image_caption }}</figcaption>
+          {%- endif %}
+        </figure>
+        {%- endif %}
       </section>
 
       <div class="prose">

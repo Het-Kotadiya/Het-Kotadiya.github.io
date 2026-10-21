@@ -1,0 +1,19 @@
+{%- comment -%}
+  Side-by-side images inside an article (2 or 3 images).
+  See POST-TEMPLATE.md for how to use it. Separate images with | .
+  Phones show them one under another.
+{%- endcomment -%}
+{%- assign files = include.files | split: "|" -%}
+{%- assign alts = include.alts | default: "" | split: "|" -%}
+<figure class="gallery cols-{{ files.size }}">
+<div class="gallery-grid">
+{%- for f in files -%}
+{%- assign src = f | strip -%}
+{%- assign alt = alts[forloop.index0] | default: "" | strip -%}
+<a class="gallery-item" href="{{ src | relative_url }}"><img src="{{ src | relative_url }}" alt="{{ alt | escape }}" loading="lazy"></a>
+{%- endfor -%}
+</div>
+{%- if include.caption %}
+<figcaption>{{ include.caption }}</figcaption>
+{%- endif %}
+</figure>
