@@ -6,9 +6,7 @@
   </a>
   <nav aria-label="Main">
     <a href="{{ '/#work' | relative_url }}"><span class="u">Work</span></a>
-    {%- if site.posts.size > 0 %}
     <a href="{{ '/writing/' | relative_url }}"{% if page.url contains '/writing/' %} aria-current="page"{% endif %}><span class="u">Writing</span></a>
-    {%- endif %}
     <a href="{{ '/#about' | relative_url }}"><span class="u">About</span></a>
     <a href="{{ '/#contact' | relative_url }}"><span class="u">Contact</span></a>
     <a href="{{ '/resume.pdf' | relative_url }}" class="btn" download>Resume <span class="arr dn">↓</span></a>

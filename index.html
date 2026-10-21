@@ -113,19 +113,34 @@
       </a>
     </section>
 
-    <!-- ===== Writing (shows up by itself once you publish your first post) ===== -->
-    {%- if site.posts.size > 0 %}
+    <!-- ===== Writing (shows your 3 latest posts, or a "coming soon" card before the first one) ===== -->
     <div class="section-head" id="writing">
       <h2>Writing</h2>
       <a class="mono muted more" href="/writing/"><span class="u">All write-ups</span> <span class="arr r">→</span></a>
     </div>
 
     <section class="bento" aria-label="Latest writing">
+      {%- if site.posts.size > 0 %}
       <div class="tile full list-tile">
         {% include post-list.html posts=site.posts limit=3 %}
       </div>
+      {%- else %}
+      <a class="tile wide tall" href="/writing/">
+        <span class="mono muted">Write-ups</span>
+        <span class="stack" style="gap:10px">
+          <span class="big">Articles on AI safety, cybersecurity and OSINT</span>
+          <span class="small muted">The first write-up is on its way.</span>
+        </span>
+      </a>
+      <a class="tile wide tall inverse" href="/writing/">
+        <span class="mono">Writing</span>
+        <span class="stack" style="gap:10px">
+          <span class="bigger">Visit the writing page</span>
+          <span class="mono" style="text-transform:none;letter-spacing:0;font-size:13px">hetkotadiya.com/writing <span class="arr r">→</span></span>
+        </span>
+      </a>
+      {%- endif %}
     </section>
-    {%- endif %}
 
     <!-- ===== About ===== -->
     <div class="section-head" id="about">
