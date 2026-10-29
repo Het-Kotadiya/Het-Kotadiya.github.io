@@ -3,7 +3,7 @@
 {%- if page.title %}
 <title>{{ page.title | escape }} — {{ site.title }}</title>
 {%- else %}
-<title>{{ site.title }} — AI Safety · Cybersecurity · OSINT</title>
+<title>{{ site.title }} — AI Safety Research</title>
 {%- endif %}
 {%- assign desc = page.summary | default: page.description | default: site.description %}
 <meta name="description" content="{{ desc | strip_html | strip_newlines | escape }}">

@@ -1,6 +1,5 @@
 ---
-title: Writing
-description: Articles and write-ups by Het Kotadiya on AI safety research.
+# Home page. The lines between the dashes tell GitHub to build this page.
 ---
 <!doctype html>
 <html lang="en">
@@ -12,49 +11,194 @@ description: Articles and write-ups by Het Kotadiya on AI safety research.
 
 <div class="wrap">
   <main>
-    <section class="bento" aria-label="Writing">
-      <div class="tile wide tall page-hero">
-        <span class="mono muted">[ 03 ] Writing</span>
-        <div class="stack" style="gap:20px">
-          <h1>Writing</h1>
-          <p class="muted">Articles and write-ups on AI safety research.</p>
+    <!-- ===== Intro ===== -->
+    <section class="bento" aria-label="Introduction">
+      <div class="tile hero span2 sq">
+        <span class="mono muted">[ 00 ] Portfolio — 2026</span>
+        <div class="stack">
+          <svg class="flag" viewBox="0 0 900 600" role="img" aria-label="Flag of India"><rect width="900" height="200" fill="#FF9933"/><rect y="200" width="900" height="200" fill="#FFFFFF"/><rect y="400" width="900" height="200" fill="#138808"/><g fill="none" stroke="#000080"><circle cx="450" cy="300" r="70" stroke-width="9"/><path stroke-width="3.5" d="M450 300L520.0 300.0M450 300L517.6 318.1M450 300L510.6 335.0M450 300L499.5 349.5M450 300L485.0 360.6M450 300L468.1 367.6M450 300L450.0 370.0M450 300L431.9 367.6M450 300L415.0 360.6M450 300L400.5 349.5M450 300L389.4 335.0M450 300L382.4 318.1M450 300L380.0 300.0M450 300L382.4 281.9M450 300L389.4 265.0M450 300L400.5 250.5M450 300L415.0 239.4M450 300L431.9 232.4M450 300L450.0 230.0M450 300L468.1 232.4M450 300L485.0 239.4M450 300L499.5 250.5M450 300L510.6 265.0M450 300L517.6 281.9"/></g><circle cx="450" cy="300" r="13" fill="#000080"/></svg>
+          <h1>Het<br>Kotadiya</h1>
+          <p class="muted">Working toward AI safety research — studying how advanced AI systems can fail or behave in unexpected ways, and how to make them safe and reliable.</p>
+          <div class="chips">
+            <span class="chip">AI Safety</span>
+            <span class="chip">Research</span>
+            <span class="chip">Multi-agent systems</span>
+          </div>
         </div>
       </div>
 
-      <div class="tile wide tall inverse">
-        <span class="mono">Index</span>
-        <div class="stack" style="gap:14px">
-          <span class="count-num">{{ site.posts.size | prepend: "00" | slice: -2, 2 }}</span>
-          <span class="small">{% if site.posts.size == 1 %}write-up{% else %}write-ups{% endif %} so far</span>
-          <a class="mono" href="{{ '/feed.xml' | relative_url }}" style="text-transform:none;letter-spacing:0;font-size:13px"><span class="u">Follow via RSS</span> <span class="arr ne">↗</span></a>
+      <div class="tile sq">
+        <span class="mono muted">Status</span>
+        <div class="stack">
+          <span class="dot" aria-hidden="true"></span>
+          <p class="big">Open to remote roles</p>
+          <p class="small muted">AI safety research</p>
+        </div>
+      </div>
+
+      <div class="tile sq accent">
+        <span class="mono">Main focus</span>
+        <div class="stack">
+          <p class="bigger">AI safety research</p>
+          <p class="small">Understanding how AI systems can fail, and helping make them safe.</p>
+        </div>
+      </div>
+
+      <div class="tile sq signal">
+        <div class="pixels" aria-hidden="true">
+          <i class="a"></i><i></i><i class="a"></i><i class="a"></i><i></i><i></i><i class="a"></i><i></i>
+          <i></i><i class="a"></i><i></i><i></i><i class="a"></i><i class="a"></i><i></i><i class="a"></i>
+          <i class="a"></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i></i>
+          <i></i><i></i><i class="a"></i><i></i><i class="a"></i><i></i><i class="a"></i><i class="a"></i>
+          <i class="a"></i><i></i><i class="a"></i><i></i><i></i><i class="a"></i><i class="a"></i><i></i>
+          <i></i><i class="a"></i><i></i><i class="a"></i><i class="a"></i><i></i><i></i><i class="a"></i>
+          <i class="a"></i><i class="a"></i><i></i><i></i><i></i><i class="a"></i><i></i><i class="a"></i>
+          <i></i><i></i><i class="b"></i><i class="a"></i><i class="a"></i><i></i><i class="a"></i><i></i>
+        </div>
+        <div class="glass">
+          <span class="mono">Failure modes</span>
+          <p class="small">Finding the patterns where AI systems go wrong.</p>
+        </div>
+      </div>
+
+      <div class="tile sq">
+        <span class="mono muted">Education</span>
+        <div class="stack" style="gap:8px">
+          <p class="big">M.S. Cybersecurity</p>
+          <p class="small muted">DePaul University</p>
+          <p class="mono muted" style="text-transform:none;letter-spacing:0">Nov 2025 — Nov 2026</p>
         </div>
       </div>
     </section>
 
-    {%- if site.posts.size == 0 %}
-    <div class="section-head"><h2>Coming soon</h2></div>
-    <section class="bento" aria-label="Write-ups">
-      <div class="tile full list-tile">
-        <p class="empty-note muted">The first write-up is on its way.</p>
-      </div>
-    </section>
-    {%- else %}
-    {%- assign years = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
-    {%- for year in years %}
-    <div class="section-head">
-      <h2>{{ year.name }}</h2>
-      <span class="mono muted">[ {{ year.items.size }} ]</span>
+    <!-- ===== Work ===== -->
+    <div class="section-head" id="work">
+      <h2>Selected work</h2>
+      <span class="mono muted">[ 01 — 02 ]</span>
     </div>
-    <section class="bento" aria-label="Write-ups from {{ year.name }}">
+
+    <section class="bento" aria-label="Selected work">
+      <article class="tile sq card">
+        <div class="card-top">
+          <span class="num">01</span>
+          <span class="tag">AI Safety</span>
+        </div>
+        <div class="stack" style="gap:10px">
+          <h3>AI collusion research sprint</h3>
+          <p class="small muted">Team research sprint with Apart Research on collusion between AI systems.</p>
+          <!-- TODO: replace with the exact repo link -->
+          <a class="link" href="https://github.com/Het-Kotadiya" target="_blank" rel="noopener noreferrer"><span class="u">View on GitHub</span> <span class="arr r">→</span></a>
+        </div>
+      </article>
+
+      <article class="tile sq card">
+        <div class="card-top">
+          <span class="num">02</span>
+          <span class="tag">Capstone</span>
+        </div>
+        <div class="stack" style="gap:10px">
+          <h3>M.S. capstone project</h3>
+          <p class="small muted">Master's capstone at DePaul University. Details coming soon.</p>
+          <!-- TODO: replace with the exact repo link -->
+          <a class="link" href="https://github.com/Het-Kotadiya" target="_blank" rel="noopener noreferrer"><span class="u">View on GitHub</span> <span class="arr r">→</span></a>
+        </div>
+      </article>
+
+      <a class="tile wide wq inverse" href="https://github.com/Het-Kotadiya" target="_blank" rel="noopener noreferrer">
+        <span class="mono">Archive</span>
+        <span class="stack" style="gap:10px">
+          <span class="bigger">All projects on GitHub</span>
+          <span class="mono" style="text-transform:none;letter-spacing:0;font-size:13px">github.com/Het-Kotadiya <span class="arr ne">↗</span></span>
+        </span>
+      </a>
+    </section>
+
+    <!-- ===== Writing (shows your 3 latest posts, or a "coming soon" card before the first one) ===== -->
+    <div class="section-head" id="writing">
+      <h2>Writing</h2>
+      <a class="mono muted more" href="/writing/"><span class="u">All write-ups</span> <span class="arr r">→</span></a>
+    </div>
+
+    <section class="bento" aria-label="Latest writing">
+      {%- if site.posts.size > 0 %}
       <div class="tile full list-tile">
-        {% include post-list.html posts=year.items %}
+        {% include post-list.html posts=site.posts limit=3 %}
+      </div>
+      {%- else %}
+      <a class="tile wide tall" href="/writing/">
+        <span class="mono muted">Write-ups</span>
+        <span class="stack" style="gap:10px">
+          <span class="big">Articles on AI safety research</span>
+          <span class="small muted">The first write-up is on its way.</span>
+        </span>
+      </a>
+      <a class="tile wide tall inverse" href="/writing/">
+        <span class="mono">Writing</span>
+        <span class="stack" style="gap:10px">
+          <span class="bigger">Visit the writing page</span>
+          <span class="mono" style="text-transform:none;letter-spacing:0;font-size:13px">hetkotadiya.com/writing <span class="arr r">→</span></span>
+        </span>
+      </a>
+      {%- endif %}
+    </section>
+
+    <!-- ===== About ===== -->
+    <div class="section-head" id="about">
+      <h2>About</h2>
+      <span class="mono muted">[ now ]</span>
+    </div>
+
+    <section class="bento" aria-label="About">
+      <div class="tile wide tall">
+        <span class="mono muted">About</span>
+        <div class="stack" style="gap:16px">
+          <p class="about-text">I'm a master's student at DePaul University, working toward a career in AI safety research. I'm interested in how AI systems can fail or behave in unexpected ways — including when several AI systems interact with each other — and in helping make them safe. Most recently, I took part in an Apart Research sprint on collusion between AI systems.</p>
+          <p class="mono muted" style="text-transform:none;letter-spacing:0">Remote only</p>
+        </div>
+      </div>
+
+      <div class="tile wide tall">
+        <span class="mono muted">Now</span>
+        <div>
+          <div class="row"><span>Finishing my master's at DePaul</span><span class="mono muted">NOV 2026</span></div>
+          <div class="row"><span>Going deeper into AI safety research</span><span class="mono muted">ONGOING</span></div>
+        </div>
       </div>
     </section>
-    {%- endfor %}
-    {%- endif %}
+
+    <!-- ===== Contact ===== -->
+    <section class="bento" id="contact" aria-label="Contact">
+      <div class="tile wide tall inverse contact-head">
+        <span class="mono">Contact</span>
+        <div class="stack" style="gap:14px">
+          <h2>Let's talk.</h2>
+          <p style="font-size:17px;line-height:1.45">Open to remote roles in AI safety research.</p>
+        </div>
+      </div>
+
+      <div class="tile wide tall contact-links">
+        <a class="contact-link" href="mailto:hetkotadiya0303@gmail.com">
+          <span><span class="mono label">Email</span><span class="value u">hetkotadiya0303@gmail.com</span></span>
+          <span class="arr r" aria-hidden="true">→</span>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/het-kotadiya" target="_blank" rel="noopener noreferrer">
+          <span><span class="mono label">LinkedIn</span><span class="value u">in/het-kotadiya</span></span>
+          <span class="arr ne" aria-hidden="true">↗</span>
+        </a>
+        <a class="contact-link" href="https://github.com/Het-Kotadiya" target="_blank" rel="noopener noreferrer">
+          <span><span class="mono label">GitHub</span><span class="value u">Het-Kotadiya</span></span>
+          <span class="arr ne" aria-hidden="true">↗</span>
+        </a>
+        <a class="contact-link" href="/resume.pdf" download>
+          <span><span class="mono label">Resume</span><span class="value u">Download PDF</span></span>
+          <span class="arr dn" aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </section>
   </main>
 
   {% include footer.html %}
+
 </div>
 </body>
 </html>
