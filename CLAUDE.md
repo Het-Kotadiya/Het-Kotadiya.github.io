@@ -58,7 +58,7 @@ Jekyll only reads `_config.yml` at the start of a build. On GitHub Pages every p
 
 - `head.html` in the repo root is an exact copy of `_includes/head.html`. It isn't used, and because it has no front matter it gets published as a raw file at `/head.html`. The real one is `_includes/head.html`. The root copy can be deleted.
 - `assets/images/demo/*.png` are left over from the deleted demo post (`git show e672382` shows it as a working example).
-- `index.html` has `TODO` comments: the two project cards still link to the GitHub profile, not to specific repos.
+- `index.html` has `TODO` comments: the project card still links to the GitHub profile, not to specific repos.
 - `index.html` links to `/writing/` and `/resume.pdf` directly instead of using `relative_url`. That's fine with the custom domain.
 
 ## Previewing locally (optional)
