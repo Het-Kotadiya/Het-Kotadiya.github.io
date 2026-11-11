@@ -49,7 +49,7 @@ Gotchas:
 - `permalink: /writing/:title/`: post URL pattern. `:title` is the short-name part of the filename.
 - `markdown: kramdown` + `input: GFM` + `syntax_highlighter: rouge`: how Markdown is turned into HTML, with code-block coloring.
 - `plugins`: `jekyll-feed` (RSS at `/feed.xml`) and `jekyll-sitemap`. Both are on GitHub Pages' allowed list.
-- `exclude`: files kept off the live site (`POST-TEMPLATE.md`, `README.md`).
+- `exclude`: files kept off the live site (`POST-TEMPLATE.md`, `README.md`, `CLAUDE.md`). **Any new `.md` file in the repo that isn't site content (notes, docs) must be added here.** GitHub Pages turns Markdown files into pages even with no front matter. If such a file contains Liquid-looking text like `{% include %}`, the whole build fails. That happened with `CLAUDE.md` in commit fbe7b35.
 - `defaults`: gives every post `layout: post` automatically.
 
 Jekyll only reads `_config.yml` at the start of a build. On GitHub Pages every push is a fresh build, so changes take effect on the next push.

@@ -24,6 +24,7 @@ feed:
 exclude:
   - POST-TEMPLATE.md
   - README.md
+  - CLAUDE.md
 
 # Every article uses the article design automatically
 defaults:
