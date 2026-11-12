@@ -18,7 +18,6 @@ Personal site for hetkotadiya.com. It's a plain **Jekyll** site built and hosted
 | `_includes/images.html` | Puts 2–3 images side by side inside a post. |
 | `assets/css/site.css` | All styles. Colors and the accent are at the top, and dark mode is included. |
 | `assets/js/site.js` | Theme switch (saved in localStorage), scroll-in fade, header line on scroll, custom cursor. |
-| `resume.pdf` | Linked from the nav and the contact section. |
 
 Every page starts with a `---` front-matter block (even an empty one). That block is what tells Jekyll to run the Liquid (`{% include %}`, `{{ site.posts }}`) in the file.
 
@@ -58,7 +57,7 @@ Jekyll only reads `_config.yml` at the start of a build. On GitHub Pages every p
 
 - `head.html` in the repo root is an exact copy of `_includes/head.html`. It isn't used, and because it has no front matter it gets published as a raw file at `/head.html`. The real one is `_includes/head.html`. The root copy can be deleted.
 - `assets/images/demo/*.png` are left over from the deleted demo post (`git show e672382` shows it as a working example).
-- `index.html` links to `/writing/` and `/resume.pdf` directly instead of using `relative_url`. That's fine with the custom domain.
+- `index.html` links to `/writing/` directly instead of using `relative_url`. That's fine with the custom domain.
 
 ## Previewing locally (optional)
 
