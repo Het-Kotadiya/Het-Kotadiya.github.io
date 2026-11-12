@@ -13,10 +13,9 @@
   // Turn on scroll-in animation only when it is safe to
   if (!reduceMotion && 'IntersectionObserver' in window) root.classList.add('fx');
 
+  // The site starts light unless the visitor picked dark with the button
   function currentTheme() {
-    var t = root.getAttribute('data-theme');
-    if (t) return t;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return root.getAttribute('data-theme') || 'light';
   }
   function updateLabel(btn) {
     btn.setAttribute('aria-label', currentTheme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');

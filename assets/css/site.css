@@ -8,20 +8,8 @@
   --accent: #FF5A1F;      /* try #D4FF3A, #8FD3FF or #C9B6FF */
   --on-accent: #111111;
 }
-/* Dark mode: follows the visitor's system setting,
-   unless they picked a theme with the switch button */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0E0E0E;
-    --tile: #171717;
-    --ink: #F2F1EC;
-    --muted: #A3A19B;
-    --line: #2C2C2C;
-    color-scheme: dark;
-  }
-  :root:not([data-theme="light"]) .icon-sun { display: block; }
-  :root:not([data-theme="light"]) .icon-moon { display: none; }
-}
+/* Dark mode: the site starts light. Visitors switch to dark
+   with the theme button, and their choice is remembered. */
 :root[data-theme="dark"] {
   --bg: #0E0E0E;
   --tile: #171717;
@@ -109,7 +97,7 @@ html { scroll-padding-top: 96px; }
 }
 .brand:hover .logo { background: var(--accent); color: var(--on-accent); }
 .brand-name { font-weight: 600; font-size: 16px; }
-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-left: auto; }
 nav a { padding: 12px 14px; font-size: 15px; }
 nav .btn {
   padding: 11px 16px; margin-left: 8px; border: 1px solid var(--ink); font-weight: 500;
@@ -119,7 +107,7 @@ nav .btn:hover { background: var(--ink); color: var(--bg); }
 
 /* Theme switch button */
 .theme-btn {
-  width: 44px; height: 44px; margin-left: 8px; padding: 0;
+  width: 44px; height: 44px; padding: 0;
   display: inline-flex; align-items: center; justify-content: center;
   background: transparent; color: inherit;
   border: 1px solid var(--line); cursor: pointer;
@@ -359,10 +347,17 @@ footer {
 /* ---------- Phone ---------- */
 @media (max-width: 560px) {
   .wrap { padding: 12px 16px 32px; }
-  .header-inner { padding: 10px 16px; flex-wrap: nowrap; gap: 8px; }
-  .brand-name { display: none; }   /* name is in the big square */
-  nav { flex-wrap: nowrap; gap: 0; }
-  nav a { padding: 12px 9px; }
+  /* Two rows on phones: logo + theme button on top, the links underneath */
+  html { scroll-padding-top: 128px; }
+  .header-inner {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "brand theme" "nav nav";
+    padding: 10px 16px 0; gap: 2px 8px;
+  }
+  .brand { grid-area: brand; }
+  .theme-btn { grid-area: theme; }
+  nav { grid-area: nav; margin-left: 0; flex-wrap: nowrap; justify-content: space-between; gap: 0; }
+  nav a { padding: 12px 0; }
   .signal.sq { aspect-ratio: 1 / 1; }
   .tall { min-height: 0; }
   .bento { grid-template-columns: minmax(0, 1fr); }
@@ -510,7 +505,6 @@ a:hover .arr.l { transform: translateX(-4px); }
   .post-hero, .page-hero { padding: 28px; min-height: 0; }
   .prose { margin: 40px auto 56px; font-size: 17px; }
   .prose h2 { font-size: 24px; }
-  nav a { padding: 12px 7px; font-size: 14px; }
 }
 
 /* ---------- Article images ---------- */

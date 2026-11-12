@@ -4,7 +4,7 @@ summary: "I tested whether an LLM monitor that compares what agents say with wha
 tags: [AI Safety, Monitoring, Multi-agent systems]
 ---
 
-Last month I took part in Apart Research's AI Collusion Research Sprint. This post is the plain-language version of my project: what I tested, what I found, and what I'd change. The full report is on [Apart's site](https://apartresearch.com/sprints/projects/words-vs-actions-an-llm-catches-broken-promises-not-planned-lies-s2hc).
+In October I took part in Apart Research's AI Collusion Research Sprint. This post is the plain-language version of my project: what I tested, what I found, and what I'd change. The full report is on [Apart's site](https://apartresearch.com/sprints/projects/words-vs-actions-an-llm-catches-broken-promises-not-planned-lies-s2hc).
 
 ## The question
 
