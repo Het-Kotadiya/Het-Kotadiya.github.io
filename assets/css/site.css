@@ -218,6 +218,18 @@ nav .btn:hover { background: var(--ink); color: var(--bg); }
 .card h3 { font-size: 22px; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; }
 .card .link { font-size: 15px; font-weight: 500; padding-top: 6px; align-self: flex-start; }
 
+/* Experience cards */
+.xp { justify-content: flex-start; gap: 24px; }
+.xp-list { list-style: none; margin: 6px 0 0; padding: 0; }
+.xp-list li {
+  position: relative; padding: 10px 0 10px 20px;
+  border-top: 1px solid var(--line); font-size: 15px; line-height: 1.5;
+}
+.xp-list li::before {             /* small accent square, matching the site */
+  content: ""; position: absolute; left: 0; top: 18px;
+  width: 6px; height: 6px; background: var(--accent);
+}
+
 /* Lists (Now + Contact) */
 .row {
   display: flex; justify-content: space-between; align-items: baseline;
