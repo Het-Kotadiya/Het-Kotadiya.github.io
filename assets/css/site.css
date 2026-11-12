@@ -231,12 +231,12 @@ nav .btn:hover { background: var(--ink); color: var(--bg); }
 .xp h3 { margin-bottom: 6px; }
 .xp h3 + p { margin-bottom: 22px; }
 .xp-list li {
-  list-style: none; position: relative; padding-left: 20px; margin-bottom: 14px;
-  font-size: 15px; line-height: 1.55;
+  list-style: none; position: relative; padding-left: 20px; margin-bottom: 22px;
+  font-size: 15px; line-height: 1.75;
 }
 .xp-list li:last-child { margin-bottom: 0; }
 .xp-list li::before {             /* small accent square, matching the site */
-  content: ""; position: absolute; left: 0; top: 9px;
+  content: ""; position: absolute; left: 0; top: 10px;
   width: 6px; height: 6px; background: var(--accent);
 }
 
