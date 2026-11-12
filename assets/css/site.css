@@ -228,6 +228,14 @@ nav .btn:hover { background: var(--ink); color: var(--bg); }
   width: 6px; height: 6px; background: var(--accent);
 }
 
+/* Project cards: text starts at the top so titles line up side by side */
+.proj { justify-content: flex-start; }
+.proj .card-top { margin-bottom: 28px; }
+
+/* "All projects on GitHub" strip under the project cards */
+.archive { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 8px 32px; padding: 24px 28px; }
+.archive .bigger { font-size: 26px; flex: 1; }
+
 /* Lists (Now + Contact) */
 .row {
   display: flex; justify-content: space-between; align-items: baseline;
