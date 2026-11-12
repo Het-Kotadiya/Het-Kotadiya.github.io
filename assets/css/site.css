@@ -218,15 +218,25 @@ nav .btn:hover { background: var(--ink); color: var(--bg); }
 .card h3 { font-size: 22px; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; }
 .card .link { font-size: 15px; font-weight: 500; padding-top: 6px; align-self: flex-start; }
 
-/* Experience cards */
-.xp { justify-content: flex-start; gap: 24px; }
-.xp-list { list-style: none; margin: 6px 0 0; padding: 0; }
-.xp-list li {
-  position: relative; padding: 10px 0 10px 20px;
-  border-top: 1px solid var(--line); font-size: 15px; line-height: 1.5;
+/* Experience cards
+   The two cards share rows (subgrid), so the title, place and each
+   bullet start at the same height in both cards. 7 rows = top line,
+   title, place, 4 bullets. If a job gets more bullets, raise the 7. */
+.bento .xp {
+  display: grid; grid-row: span 7; grid-template-rows: subgrid;
+  row-gap: 0; align-content: start;
 }
+.xp .stack, .xp .xp-list { display: contents; }
+.xp .card-top { margin-bottom: 28px; }
+.xp h3 { margin-bottom: 6px; }
+.xp h3 + p { margin-bottom: 22px; }
+.xp-list li {
+  list-style: none; position: relative; padding-left: 20px; margin-bottom: 14px;
+  font-size: 15px; line-height: 1.55;
+}
+.xp-list li:last-child { margin-bottom: 0; }
 .xp-list li::before {             /* small accent square, matching the site */
-  content: ""; position: absolute; left: 0; top: 18px;
+  content: ""; position: absolute; left: 0; top: 9px;
   width: 6px; height: 6px; background: var(--accent);
 }
 
